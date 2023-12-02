@@ -1,15 +1,11 @@
-package main
+package day2
 
 import (
 	"fmt"
-
-	day2 "github.com/brunoeduardodev/advent-of-code/cmd/day-2"
-	"github.com/brunoeduardodev/advent-of-code/internal"
 )
 
-func main() {
-	input := internal.GetInput(2, 1)
-	games := day2.ParseInput(input)
+func Challenge1(input string) {
+	games := ParseInput(input)
 
 	maxBallsPerColor := map[string]int{
 		"blue":  14,

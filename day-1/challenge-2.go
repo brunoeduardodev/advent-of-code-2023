@@ -1,11 +1,9 @@
-package main
+package day1
 
 import (
 	"fmt"
 	"strconv"
 	"strings"
-
-	"github.com/brunoeduardodev/advent-of-code/internal"
 )
 
 var spelledNumbers = []string{"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"}
@@ -40,7 +38,7 @@ func clearBuffer(buffer string) string {
 	return ""
 }
 
-func calculateCalibration(line string) int {
+func day2CalculateCalibration(line string) int {
 
 	var firstNumber, lastNumber = -1, -1
 	characters := strings.Split(line, "")
@@ -92,14 +90,12 @@ func calculateCalibration(line string) int {
 	return result
 }
 
-func main() {
-
-	input := internal.GetInput(1, 2)
+func Challenge2(input string) {
 	lines := strings.Split(input, "\n")
 
 	var sum int = 0
 	for i := 0; i < len(lines); i++ {
-		res := calculateCalibration(lines[i])
+		res := day2CalculateCalibration(lines[i])
 		sum = sum + res
 	}
 

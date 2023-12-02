@@ -1,4 +1,4 @@
-package internal
+package helpers
 
 import (
 	"fmt"
@@ -19,3 +19,5 @@ func GetInput(day int, challenge int) string {
 
 	return string(data)
 }
+
+type Day map[int]func(string)
