@@ -2,15 +2,14 @@ package main
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
 
+	day2 "github.com/brunoeduardodev/advent-of-code/cmd/day-2"
 	"github.com/brunoeduardodev/advent-of-code/internal"
 )
 
 func main() {
 	input := internal.GetInput(2, 1)
-	games := strings.Split(input, "\n")
+	games := day2.ParseInput(input)
 
 	maxBallsPerColor := map[string]int{
 		"blue":  14,
@@ -21,24 +20,11 @@ func main() {
 	validGameIdsSum := 0
 
 	for i, game := range games {
-		roundsText := strings.Split(game, ": ")[1]
-		rounds := strings.Split(roundsText, "; ")
-
 		isPossible := true
-		for _, round := range rounds {
-			sets := strings.Split(round, ", ")
 
-			for _, set := range sets {
-				data := strings.Split(set, " ")
-				amount, err := strconv.Atoi(data[0])
-
-				if err != nil {
-					panic("Could not convert amount to int")
-				}
-
-				color := data[1]
-
-				if maxBallsPerColor[color] < amount {
+		for _, round := range game.Rounds {
+			for _, set := range round.Sets {
+				if maxBallsPerColor[set.Color] < set.Amount {
 					isPossible = false
 					continue
 				}
