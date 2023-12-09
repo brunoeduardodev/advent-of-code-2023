@@ -12,6 +12,7 @@ import (
 	day5 "github.com/brunoeduardodev/advent-of-code/day-5"
 	day6 "github.com/brunoeduardodev/advent-of-code/day-6"
 	day7 "github.com/brunoeduardodev/advent-of-code/day-7"
+	day8 "github.com/brunoeduardodev/advent-of-code/day-8"
 	"github.com/brunoeduardodev/advent-of-code/helpers"
 )
 
@@ -54,6 +55,7 @@ var daysHandlers = map[int]helpers.Day{
 	5: day5.Day5,
 	6: day6.Day6,
 	7: day7.Day7,
+	8: day8.Day8,
 }
 
 func main() {
