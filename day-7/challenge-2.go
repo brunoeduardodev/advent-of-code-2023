@@ -1,11 +1,9 @@
 package day7
 
-import (
-	"fmt"
-)
+import "fmt"
 
-func Challenge1(input string) {
-	games := parseInput(input, false)
+func Challenge2(input string) {
+	games := parseInput(input, true)
 	sortedGames := quickSortGames(games)
 
 	total := 0

@@ -25,6 +25,7 @@ type Game struct {
 }
 
 var CardValueMap = map[string]int{
+	"*": 1,
 	"2": 2,
 	"3": 3,
 	"4": 4,
@@ -56,7 +57,7 @@ func (gameA Game) isBiggerThan(gameB Game) bool {
 	return true
 }
 
-func getGameInfo(cards []string) (distinctCards int, repeatedCards int) {
+func getGameInfo(cards []string) (distinctCards int, repeatedCards int, jokers int) {
 	distinctCards = 0
 	repeatedCards = 0
 	cardMap := map[string]int{}
@@ -76,37 +77,73 @@ func getGameInfo(cards []string) (distinctCards int, repeatedCards int) {
 		}
 	}
 
+	jokers = cardMap["*"]
+
 	return
 }
 
 func getGameType(cards []string) GameType {
-	distinctCards, repeatedCards := getGameInfo(cards)
+	distinctCards, repeatedCards, jokers := getGameInfo(cards)
 	if distinctCards == 1 {
 		return GameType(FIVE_OF_A_KIND)
 	} else if distinctCards == 2 && repeatedCards == 4 {
+		if jokers == 1 {
+			return GameType(FIVE_OF_A_KIND)
+		} else if jokers == 4 {
+			return GameType(FIVE_OF_A_KIND)
+		}
+
 		return GameType(FOUR_OF_A_KIND)
 	} else if distinctCards == 2 && repeatedCards == 5 {
+		if jokers == 3 {
+			return GameType(FIVE_OF_A_KIND)
+		} else if jokers == 2 {
+			return GameType(FIVE_OF_A_KIND)
+		}
 		return GameType(FULL_HOUSE)
 	} else if distinctCards == 3 && repeatedCards == 3 {
+		if jokers == 3 {
+			return GameType(FOUR_OF_A_KIND)
+		}
+		if jokers == 1 {
+			return GameType(FOUR_OF_A_KIND)
+		}
 		return GameType(THREE_OF_A_KIND)
 	} else if distinctCards == 3 && repeatedCards == 4 {
+		if jokers == 2 {
+			return GameType(FOUR_OF_A_KIND)
+		} else if jokers == 1 {
+			return GameType(FULL_HOUSE)
+		}
 		return GameType(TWO_PAIR)
 	} else if distinctCards == 4 && repeatedCards == 2 {
+		if jokers == 2 {
+			return GameType(THREE_OF_A_KIND)
+		} else if jokers == 1 {
+			return GameType(THREE_OF_A_KIND)
+		}
+
 		return GameType(ONE_PAIR)
 	} else if distinctCards == 5 {
+		if jokers == 1 {
+			return GameType(ONE_PAIR)
+		}
 		return GameType(HIGH_CARD)
 	}
 
 	return GameType(NO_TYPE)
 }
 
-func parseInput(input string) []Game {
+func parseInput(input string, parseJAsJoker bool) []Game {
 	lines := strings.Split(input, "\n")
 	games := make([]Game, len(lines))
 
 	for i, line := range lines {
 		gameValues := strings.Split(line, " ")
 		cardsStr := gameValues[0]
+		if parseJAsJoker {
+			cardsStr = strings.ReplaceAll(cardsStr, "J", "*")
+		}
 		bidStr := gameValues[1]
 
 		cards := strings.Split(cardsStr, "")
